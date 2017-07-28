@@ -1,0 +1,6 @@
+{% extends "site/header.html" %}
+{% block body %}
+ <div class="row">
+ 	You have a total of {{ g.user.files.count() }} files
+ </div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "site/header.html" %}
+{% block body %}
+<div class="row">
+  <div class="col-lg-1 col-xs-3 col-lg-offset-{{ ((11 - file_types | length) / 2) | round | int }}">
+    <a href="{{url_for('site.fileBrowser')}}">All</a>
+  </div>
+  {% for ftype in file_types.keys() | sort %}
+    <div class="col-lg-1 col-xs-3">
+      <a href="{{url_for('site.fileBrowser',view=ftype)}}">{{ftype.title()}}</a>
+    </div>
+  {% endfor %}
+  <form method="post">
+    {{form_file_search.hidden_tag()}}
+    {{form_file_search.view}}
+    {{form_file_search.search}}
+    {{form_file_search.search_view}}
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+{% for page in pagination.iter_pages() %}
+  {% if page %}
+    {% if page != pagination.page %}
+      <a href="{{ url_for('site.fileBrowser', page=page, view=view) }}">{{ page }}</a>
+    {% else %}
+      <strong>{{ page }}</strong>
+    {% endif %}
+  {% else %}
+    <span class=ellipsis>…</span>
+  {% endif %}
+{% endfor %}
+
+
+{% for file in files %}
+  {% macro file_player_html() %}
+    {{file_type_html[file_extensions.get(file.fext,'default')].format(url_for('site.dwnUserFile',fileid=file.id)) | safe }}
+  {% endmacro %}
+  <div class="row" style="color:#AAA;">
+    <div class="col-lg-3 col-md-4 col-sm-2 hidden-xs FIThumb ">
+      {{ file_player_html() }}
+    </div>
+
+    <div class="col-lg-4 col-sm-5 col-md-3 col-xs-7 FIName" style="padding-right: 0px !important;padding-left:10px !important;text-align: left;">
+      <span class="FIName_span" style="display:inline-block;">{{file.name}}</span>
+    </div>
+
+    <div class="col-lg-1 hidden-xs hidden-sm hidden-md" style="text-align:left;">
+      {{"{0:.3f}".format(file.size/1000000)}}MB
+    </div>
+
+    <div class="col-lg-1 col-md-2 col-xs-4" >{{file.datetime}}
+    </div>
+
+    <div class="col-xs-1 hidden-md hidden-lg" style="padding-right:10px">
+     <span class="glyphicon glyphicon-collapse-down dropdown-toggle" style="font-size: 1.5em;" onclick="infoWindow.toggle('{{file.id}}')"></span>
+    </div>
+
+    <div class="col-lg-3 col-md-3 hidden-xs hidden-sm">
+      <a href="{{ url_for('site.delUserFile',fileid=file.id) }}" class="links">
+        Delete <span class="glyphicon glyphicon-remove"></span>
+      </a>
+      </br>
+      <a href="{{ url_for('site.dwnUserFile', fileid=file.id) }}" class="links">
+        Download <span class="glyphicon glyphicon-download"></span>
+      </a>
+      </br>
+      {% if file.public == False %}
+        <a href="{{ url_for('site.pubFile', fileid=file.id) }}" class="links">
+          Share <span class="glyphicon glyphicon-share-alt"></span>
+        </a>
+      {% else %}
+      </br>
+        <span class="links clipBtn" data-clipboard-text="{{url_for('site.dwnPublicFile',filekey=file.public_key, fileid=file.id, _external=True)}}">Copy link <span class="glyphicon glyphicon-paperclip"></span></span>
+        </br>
+        <a href="{{ url_for('site.pubFile', fileid=file.id) }}" class="links">
+          Unshare <span class="glyphicon glyphicon-cloud-download"></span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div id="fileinfo_{{file.id}}" class="collapse fileinfo row hidden-lg animated fadeIn">
+    <div class="col-xs-4" align="right">
+      <a href="{{ url_for('site.delUserFile',fileid=file.id) }}" class="links">
+        Delete <span class="glyphicon glyphicon-remove"></span>
+      </a>
+      </br>
+      <a href="{{ url_for('site.dwnUserFile', fileid=file.id) }}" class="links">
+        Download <span class="glyphicon glyphicon-download"></span>
+      </a>
+      </br>
+      {% if file.public == False %}
+        <a href="{{ url_for('site.pubFile', fileid=file.id) }}" class="links">
+          Share <span class="glyphicon glyphicon-share-alt"></span>
+        </a>
+      {% else %}
+        </br>
+        <span class="links clipBtn" data-clipboard-text="{{url_for('site.dwnPublicFile',filekey=file.public_key, fileid=file.id, _external=True)}}">Copy link <span class="glyphicon glyphicon-paperclip"></span></span>
+        </br>
+        <a href="{{ url_for('site.pubFile', fileid=file.id) }}" class="links">
+          Unshare <span class="glyphicon glyphicon-cloud-download"></span>
+        </a>
+      {% endif %}
+    </div>
+    <div class="col-xs-8" style="padding-top: 0px !important">
+      <p>file size: {{file.size/1000000}}MB</p>
+      {{ file_player_html() }}
+    </div>
+  </div>
+  <span class="rowhr"></span>
+{% endfor %}
+
+
+<div class="row">
+      {% for page in pagination.iter_pages() %}
+        {% if page %}
+          {% if page != pagination.page %}
+            <a href="{{ url_for('site.fileBrowser', page=page, view=view) }}">{{ page }}</a>
+          {% else %}
+            <strong>{{ page }}</strong>
+          {% endif %}
+        {% else %}
+          <span class=ellipsis>…</span>
+        {% endif %}
+      {% endfor %}
+   </div>
+{% endblock %}

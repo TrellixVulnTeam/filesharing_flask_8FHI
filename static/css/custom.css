@@ -1,0 +1,205 @@
+/* adjust body when menu is open */
+body.slide-active {
+    overflow-x: hidden
+}
+/*first child of #page-content so it doesn't shift around*/
+.no-margin-top {
+    margin-top: 0px!important
+}
+/*wrap the entire page content but not nav inside this div if not a fixed top, don't add any top padding */
+#page-content {
+    position: relative;
+    padding-top: 70px;
+    left: 0;
+}
+#page-content.slide-active {
+    padding-top: 0
+}
+
+
+/* put toggle bars on the left :: not using button */
+#slide-nav .navbar-toggle {
+    cursor: pointer;
+    position: relative;
+    line-height: 0;
+    float: left;
+    margin: 0;
+    width: 30px;
+    height: 40px;
+    padding: 10px 0 0 0;
+    border: 0;
+    background: transparent;
+}
+/* icon bar prettyup - optional */
+#slide-nav .navbar-toggle > .icon-bar {
+    width: 100%;
+    display: block;
+    height: 3px;
+    margin: 5px 0 0 0;
+}
+#slide-nav .navbar-toggle.slide-active .icon-bar {
+    background: orange
+}
+.navbar-header {
+    position: relative
+}
+/* un fix the navbar when active so that all the menu items are accessible */
+.navbar.navbar-fixed-top.slide-active {
+    position: relative
+}
+/* screw writing importants and shit, just stick it in max width since these classes are not shared between sizes */
+@media (max-width:767px) { 
+	#slide-nav .container {
+	    margin: 0!important;
+	    padding: 0!important;
+      	height: 100%;
+	}
+	#slide-nav .navbar-header {
+	    margin: 0 auto;
+	    padding: 0 15px;
+	}
+	#slide-nav .navbar.slide-active {
+	    position: absolute;
+	    width: 40%;
+	    top: -1px;
+	    z-index: 1000;
+	}
+	#slide-nav #slidemenu {
+	    background: #23232F;
+	    left: -100%;
+	    width: 40%;
+	    min-width: 0;
+	    position: absolute;
+	    padding-left: 0;
+	    z-index: 2;
+	    padding-top: 20px;
+	    padding-bottom: 20px;
+	   /* top: -8px;*/
+	    margin: 0;
+	}
+	#slide-nav #slidemenu .navbar-nav {
+	    min-width: 0;
+	    width: 100%;
+	    margin: 0;
+	}
+	#slide-nav #slidemenu .navbar-nav .dropdown-menu li a {
+	    min-width: 0;
+	    width: 40%;
+	    white-space: normal;
+	}
+	#slide-nav {
+	    border-top: 0
+	}
+	#slide-nav.navbar-inverse #slidemenu {
+	    background: #333
+	}
+	/* this is behind the navigation but the navigation is not inside it so that the navigation is accessible and scrolls*/
+	#navbar-height-col {
+	    position: fixed;
+	    top: 0;
+	    height: 100%;
+        bottom:0;
+	    width: 40%;
+	    left: -40%;
+	    background: #23232F;
+	    z-index: 2;
+	}
+	#navbar-height-col.inverse {
+	    background: #333;
+	    z-index: 1;
+	    border: 0;
+	}
+	
+	#slide-nav .navbar-form .form-control {
+	    text-align: center
+	}
+	#slide-nav .navbar-form .btn {
+	    width: 100%
+	}
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+#uploadClick{
+	cursor: pointer;
+}
+
+#slide-nav{
+	background-color:#23232F !important;
+	border-width: 0px;
+}
+html, body{
+	height: 100%;
+	background-color: #1a1a26;
+}
+
+.fileinfo{
+	width: 100%;
+	background-color:#23232F;
+	
+	position:absolute;
+	z-index:2;
+	padding: 10px 0px 20px 0px;
+	color: #aaa;
+	min-height: 100px;
+}
+
+.FIThumb_content{
+	display: block;
+	width: auto;
+	max-height: 150px;
+}
+
+.row{
+	margin-left: 0px !important;
+	margin-right:0px !important;
+}
+
+.row > div {
+	white-space: nowrap; 
+	overflow: hidden;
+	padding-top: 15px !important;
+	padding-bottom: 15px !important;
+}
+
+.rowhr{
+	display:block;
+   	border:none;
+   	color:white;
+	height:1px;
+	background: -moz-linear-gradient(top, #1a1a26 0%, #23232f 50%, #1a1a26 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #1a1a26 0%,#23232f 50%,#1a1a26 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #1a1a26 0%,#23232f 50%,#1a1a26 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a1a26', endColorstr='#1a1a26',GradientType=0 ); /* IE6-9 */
+}
+
+.links{
+	color:#777;
+	line-height: 30px;
+}
+.links:hover{
+	color:#333;
+	text-decoration: none;
+	cursor: pointer;
+}
+.panel{
+	background-color: #23232F;
+	color: white;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #0e1111;
+}
+
+.btn{
+	background-color: #1a1a26;
+}
+.table > thead > tr > th, .panel > .panel-body + .table, .panel > .panel-body + .table-responsive, .panel > .table + .panel-body, .panel > .table-responsive + .panel-body{
+	border-color: #1a1a26 !important;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang-"en">
+
+<head>
+ <meta charset="utf-8">
+	<title>Terminal</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link href="{{ url_for('static', 
+							filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', 
+              filename='css/custom.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', 
+              filename='css/animate.min.css') }}" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', 
+							filename='favicon.ico') }}">
+</head>
+
+<header>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation" id="slide-nav">
+ <div class="container ">
+
+  <div class="navbar-header">
+   <a class="navbar-toggle" onclick="closeAllFI()"> 
+     <span class="sr-only">Toggle navigation</span>
+     <span class="icon-bar"></span>
+     <span class="icon-bar"></span>
+     <span class="icon-bar"></span>
+   </a>
+   <a class="navbar-brand" href="/">{{g.user.nickname.title()}}</a>
+  </div>
+
+ <!-- Mobile slide out menu -->
+  <div id="slidemenu">
+   <ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="{{ url_for('site.fileBrowser') }}">Filebrowser</a></li>
+    <li><a href="">IPT</a></li>
+   </ul>
+   <ul class="nav navbar-nav navbar-right">
+    {% if g.user.admin  == True %}
+    <li><a class="glyphicon glyphicon-console" href="{{ url_for('site.zolder') }}"> ACP</a></li>
+    {% endif %}
+     <li id="uploadClick">
+      <a class="glyphicon glyphicon-upload" id="navbar_upload"> Upload</a>
+      <form id="navFile" method="post" enctype="multipart/form-data" action="{{ url_for('site.uploadFile') }}">
+       {{ form_file_upload.hidden_tag() }}
+       {{ form_file_upload.upload(class_="inputfile",id="file") }}
+      </form>
+     </li>
+     <li><a href="/logout" class="glyphicon glyphicon-off"> Logout</a></li>
+   </ul>
+  </div>
+
+ </div>
+</div>
+</header>
+
+<body>
+<div class="container-fluid" style="padding-left:0px;padding-right:0px;min-height: 100%;margin-top: 60px" align="center">
+ {% block body %}{% endblock %}
+</div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/slide.js')}}"></script>
+<script src="{{url_for('static',filename='js/clipboard.min.js')}}"></script>
+
+<script>
+// when file input received submit the form
+$('#file').change(function (){
+    $("#navFile").submit();
+});
+// Redirect click from button to hidden upload form
+$('#navbar_upload').click(function(){
+  $('#file').click()
+});
+
+// Object that holds functions and states for file info windows (mobile users)
+var infoWindow = (function (){
+  var body = {};
+  body.toggle = function(id){
+    $('.fileinfo').collapse('hide')
+    $('#fileinfo_'+id).collapse('toggle');
+  }
+  return body;
+}());
+
+// on hover scroll overflow text on filename columns 
+$(document).ready(function() {
+    var boxwidth = $("div.FIName").width();
+    $("span.FIName_span").hover(
+      function () {
+        $(this).animate({
+            textIndent: "-" + ( $(this).width() - $(this).parent().width() ) + "px"  
+        }, (($(this).width() - $(this).parent().width())*8) );  
+      }, 
+      function () {
+        $(this).animate({
+            textIndent: "0"           
+        }, 1000);  
+      }
+    );
+});
+var clipboard = new Clipboard('.clipBtn');
+</script>
+</html>

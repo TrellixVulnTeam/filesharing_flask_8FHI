@@ -1,0 +1,62 @@
+ {% extends "header.html" %}
+ {% block body %}
+ <div class="row" >
+  <div class="col-xs-12 col-lg-5 col-lg-offset-1" style="min-width:300px">
+    
+    <div class="panel">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><h4>Add website users</h4>
+      </div>
+
+      <div class="panel-body">
+
+       <form class="form-inline" action="/forms/addWebbUser/" enctype="multipart/form-data" method="post">
+         {{ form_user_login.hidden_tag() }}
+         <div class="form-group input-group-xs">
+           <label>username</label>
+           {{ form_user_login.username(class_="form-control input-xs") }}
+          <!--  <input type="text" name="client_ip" class="form-control input-xs" id="client_ip" placeholder="8.8.8.8"><span style="color:red">*</span> -->
+         </div>
+         <div class="form-group input-group-xs">
+           <label >password</label>
+            {{ form_user_login.password(class_="form-control input-xs",type="password") }}
+           <!-- <input type="text" name="client_pcname" class="form-control input-xs" id="client_pcname" placeholder="PC42"> -->
+         </div>
+         <button type="submit" class="btn btn-xs">Add</button>
+       </form>
+
+      </div>
+      <table class="table" style="table-layout: fixed;">
+         <thead>
+          <tr>
+           <th>ID</th>
+           <th>username</th>
+           <th>actions</th>
+          </tr>
+         </thead>
+         {% for row in users %}
+         <tr>
+          <td>{{ row.id }}</td>
+          <td>{{ row.nickname }}</td>
+          <td><a href='{{url_for("site.delWebbUser",userid=row.id)}}'>
+             <button class="btn btn-danger btn-xs">Delete</button></a>
+          </td>
+         <tr>
+         {% endfor %}
+        </table>
+    </div>
+  </div>
+  </div>
+<!--   <script>
+function delWebbUser(userid) {
+    $.post('/forms/delWebbUser/'+userid, {
+        id: userid
+    }).done(function() {
+       location.reload(true)
+    }).fail(function() {
+        alert('Failed to delete user')
+        location.reload(true)
+    });
+}
+</script> -->
+{% endblock %}

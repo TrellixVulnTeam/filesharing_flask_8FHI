@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang-"en">
+<head>
+	<meta charset="utf-8">
+	<title>Login</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link href="{{ url_for('static', 
+							filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', 
+              filename='css/custom.css') }}" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', 
+							filename='favicon.ico') }}">
+</head>
+<header>
+<div class="container" style="min-height:100%;margin-top:50px" align="center">
+ <div class="panel " style="max-width:500px;">
+  <div class="panel-heading"><h1>Login</h1></div>
+  <div class="panel-body">
+    <form method="post">
+      {{ form_user_login.hidden_tag() }}
+      <div class="form-group input-group-xs col-xs-12 col-lg-6 col-lg-offset-3">
+           <label>username </label>
+           {{ form_user_login.username(class_="form-control input-xs", autofocus="autofocus") }}
+       </div>
+       <div class="form-group input-group-xs col-xs-12 col-lg-6 col-lg-offset-3">
+           <label>password </label>
+           {{ form_user_login.password(class_="form-control input-xs",type="password") }}
+       </div>
+       <span class="col-lg-12">
+       <button type="submit" class="btn btn-xs">Login</button>
+       </span>
+    </form>
+  </div>
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+
+</body>
+</html>
